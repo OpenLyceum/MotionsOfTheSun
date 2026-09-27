@@ -54,7 +54,11 @@
       "october": "Oct",
       "november": "Nov",
       "december": "Déc"
-    }
+    },
+    "northAbbreviation": "N",
+    "eastAbbreviation": "E",
+    "southAbbreviation": "S",
+    "westAbbreviation": "O"
   },
   "keyboardHelp": {
     "sky": "Ciel",

@@ -26,7 +26,7 @@ import { BooleanProperty, type TReadOnlyProperty } from "scenerystack/axon";
 import type { Vector2 } from "scenerystack/dot";
 import { Node, Rectangle } from "scenerystack/scenery";
 import { degToRad } from "../../common/SkyCoordinates.js";
-import { SkyProjection } from "../../common/SkyProjection.js";
+import { HORIZON_FRAME_MATRIX, SkyProjection } from "../../common/SkyProjection.js";
 import { attachSkyCameraInteraction } from "../../common/view/attachSkyCameraInteraction.js";
 import { CelestialEquatorOnHorizonNode } from "../../common/view/CelestialEquatorOnHorizonNode.js";
 import { CelestialPoleAxisNode } from "../../common/view/CelestialPoleAxisNode.js";
@@ -78,6 +78,7 @@ export class SunPathsSkyNode extends Node {
       radius: SPHERE_RADIUS,
       elevation: DEFAULT_ELEVATION,
       azimuth: DEFAULT_AZIMUTH,
+      frameMatrix: HORIZON_FRAME_MATRIX,
     });
 
     // Transparent hit rectangle over the dome area.

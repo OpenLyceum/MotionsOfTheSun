@@ -279,3 +279,10 @@ Port maps Flash az → ecliptic longitude via `λ_deg = −earthAz − 90` (`geo
 | Horizon | None | Masked; twilight sky gradient |
 | Sun position | From calendar DOY via az → λ | From `solarDaysSinceVE` → λ |
 | Port node | `GeocentricZodiacNode` (default) | `ZodiacSkyNode` (optional mode) |
+
+### Horizon-frame handedness
+
+The horizon frame (+X north, +Y east, +Z zenith) is **left-handed**, and `SkyProjection`'s camera is
+a pure rotation, so a projection that draws horizon-frame vectors must pass
+`frameMatrix: HORIZON_FRAME_MATRIX` (negates Y) — as `SunPathsSkyNode` does. Without it the Sun Paths
+dome is a mirror image. `tests/HorizonHandedness.test.ts` guards this (same fix as RotatingSky).
