@@ -133,6 +133,9 @@ export class ZodiacScreenView extends ScreenView {
     const constellationsNode = new ZodiacConstellationsNode(model, SKY_WIDTH, constellationLabelStrings);
     constellationsNode.x = SKY_LEFT;
     constellationsNode.y = SKY_TOP;
+    // Same origin as skyNode, so share its clip: unclipped, the zodiac stick figures
+    // below the horizon spilled across the screen under the sky panel.
+    constellationsNode.clipArea = skyNode.clipArea;
     this.addChild(constellationsNode);
 
     model.viewModeProperty.link((mode) => {

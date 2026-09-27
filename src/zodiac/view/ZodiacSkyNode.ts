@@ -69,6 +69,9 @@ function interpolateColor(c0: string | Color, c1: string | Color, u: number): Co
 // Faint horizon outline alpha (drawn over the sky/ground separator).
 const HORIZON_OUTLINE_OPACITY: number = 0.15;
 
+/** Minimum gap between a horizon cardinal label and the bottom of the sky panel. */
+const CARDINAL_LABEL_BOTTOM_INSET = 3;
+
 export class ZodiacSkyNode extends Node {
   /** x offset of projection origin from left edge of clip area. */
   public readonly originX: number;
@@ -420,6 +423,9 @@ export class ZodiacSkyNode extends Node {
       label.localBoundsProperty.link(() => {
         label.centerX = this.originX + pt.x;
         label.centerY = offset + pt.y + altExtraY;
+        // Keep the nudged label inside the clipped panel (E/W were cut off at the bottom edge).
+        const panelBottom = this.clipArea?.bounds.maxY ?? Number.POSITIVE_INFINITY;
+        label.bottom = Math.min(label.bottom, panelBottom - CARDINAL_LABEL_BOTTOM_INSET);
       });
       container.addChild(label);
     };
