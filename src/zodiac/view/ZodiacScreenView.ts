@@ -54,6 +54,8 @@ import { ZodiacSunStrip } from "./ZodiacSunStrip.js";
 
 const GEO_DIAMETER = 450;
 const GEO_LEFT = 24;
+/** Horizontal gap between the zodiac strip and the time control. */
+const TIME_CONTROL_STRIP_GAP = 16;
 const GEO_TOP = 8;
 
 const SKY_WIDTH = 450;
@@ -157,7 +159,9 @@ export class ZodiacScreenView extends ScreenView {
       strings.westDirectionStringProperty,
       strings.sunMarkerLabelStringProperty,
     );
-    zodiacStrip.x = GEO_LEFT + (GEO_DIAMETER - ZODIAC_STRIP_WIDTH) / 2;
+    // Centered under the sphere but never past the screen edge: the 600 px strip
+    // under the 450 px sphere started at x ≈ −51, hiding its "east" end.
+    zodiacStrip.x = Math.max(SCREEN_VIEW_MARGIN, GEO_LEFT + (GEO_DIAMETER - ZODIAC_STRIP_WIDTH) / 2);
     // Position by translation (not `.top`) so the sun tick label above y=0 does not shift the band.
     zodiacStrip.y = GEO_TOP + GEO_DIAMETER + 28;
     this.addChild(zodiacStrip);
@@ -291,7 +295,8 @@ export class ZodiacScreenView extends ScreenView {
     });
 
     const radioLabel = (labelProperty: TReadOnlyProperty<string>): Text =>
-      new Text(labelProperty, { font, fill: textFill, maxWidth: 120 });
+      // Dark text on the white radio-button surface (textFill is near-white).
+      new Text(labelProperty, { font, fill: MotionsOfTheSunColors.controlSurfaceTextColorProperty, maxWidth: 120 });
 
     const viewModeRadioGroup = new RectangularRadioButtonGroup(
       model.viewModeProperty,
@@ -369,7 +374,8 @@ export class ZodiacScreenView extends ScreenView {
       tagName: "div",
       accessibleName: a11y.controls.timeControlStringProperty,
     });
-    timeControl.centerX = this.layoutBounds.centerX;
+    // Beside the strip (centered on the screen it overlapped the strip's right end).
+    timeControl.left = zodiacStrip.right + TIME_CONTROL_STRIP_GAP;
     timeControl.bottom = this.layoutBounds.maxY - SCREEN_VIEW_MARGIN;
     this.addChild(timeControl);
 

@@ -183,7 +183,9 @@ export class SiderealSolarTimeScreenView extends ScreenView {
     const yearModeRadioLabel = (labelProperty: TReadOnlyProperty<string>): Text =>
       new Text(labelProperty, {
         font: new PhetFont(CONTROL_FONT_SIZE),
-        fill: MotionsOfTheSunColors.textColorProperty,
+        // Dark text: these labels sit on the white radio-button surface (near-white
+        // textColorProperty made the selected option unreadable).
+        fill: MotionsOfTheSunColors.controlSurfaceTextColorProperty,
         maxWidth: 150,
       });
 
