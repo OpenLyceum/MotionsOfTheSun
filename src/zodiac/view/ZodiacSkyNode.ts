@@ -20,10 +20,11 @@
  *   lines 324–593 (drawing routines) and 638–686 (sun/twilight).
  */
 
-import { Multilink } from "scenerystack/axon";
+import { Multilink, type TReadOnlyProperty } from "scenerystack/axon";
 import { Shape } from "scenerystack/kite";
 import { Circle, Color, LinearGradient, Node, Path, Rectangle, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
+import { StringManager } from "../../i18n/StringManager.js";
 import MotionsOfTheSunColors from "../../MotionsOfTheSunColors.js";
 import type { ZodiacModel } from "../model/ZodiacModel.js";
 import {
@@ -403,7 +404,9 @@ export class ZodiacSkyNode extends Node {
     const container = new Node({ pickable: false });
     const font = new PhetFont({ size: 13, weight: "bold" });
 
-    const addLabel = (text: string, az: number, altExtraY: number): void => {
+    const strings = StringManager.getInstance().getZodiacScreenStrings();
+
+    const addLabel = (text: TReadOnlyProperty<string>, az: number, altExtraY: number): void => {
       const alt = 5 * (Math.PI / 180); // 5° above horizon
       const pt = projectHorizon(az, alt, W);
       if (!pt) {
@@ -412,15 +415,18 @@ export class ZodiacSkyNode extends Node {
       const label = new Text(text, {
         font,
         fill: MotionsOfTheSunColors.cardinalLabelColorProperty,
-        centerX: this.originX + pt.x,
-        centerY: offset + pt.y + altExtraY,
+      });
+      // Re-center when the locale changes the label width.
+      label.localBoundsProperty.link(() => {
+        label.centerX = this.originX + pt.x;
+        label.centerY = offset + pt.y + altExtraY;
       });
       container.addChild(label);
     };
 
-    addLabel("S", Math.PI, 30); // south horizon, nudged down like Flash
-    addLabel("E", Math.PI / 2, 40); // east horizon, nudged down
-    addLabel("W", (3 * Math.PI) / 2, 40); // west horizon, nudged down
+    addLabel(strings.southStringProperty, Math.PI, 30); // south horizon, nudged down like Flash
+    addLabel(strings.eastStringProperty, Math.PI / 2, 40); // east horizon, nudged down
+    addLabel(strings.westStringProperty, (3 * Math.PI) / 2, 40); // west horizon, nudged down
 
     return container;
   }

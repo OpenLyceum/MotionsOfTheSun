@@ -23,6 +23,10 @@
     "latitude": "Latitude",
     "dayOfYear": "Day of Year",
     "timeOfDay": "Time of Day",
+    "northCelestialPoleAbbreviation": "NCP",
+    "southCelestialPoleAbbreviation": "SCP",
+    "zenith": "Zenith",
+    "nadir": "Nadir",
     "months": {
       "january": "January",
       "february": "February",
