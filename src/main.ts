@@ -36,20 +36,22 @@ onReadyToLaunch(() => {
   // Simulation-specific preferences; initial values come from motionsOfTheSunQueryParameters.
   const simPreferences = new MotionsOfTheSunPreferencesModel(Tandem.ROOT.createTandem("preferences"));
 
-  // Screen name Properties update automatically when the locale changes.
   const screens = [
     new SunPathsScreen({
+      // The screen name Property updates automatically when the locale changes
       name: screenNames.sunPathsStringProperty,
       tandem: Tandem.ROOT.createTandem("sunPathsScreen"),
       backgroundColorProperty: MotionsOfTheSunColors.backgroundColorProperty,
       defaultLatitudeProperty: simPreferences.defaultLatitudeProperty,
     }),
     new SiderealSolarTimeScreen({
+      // The screen name Property updates automatically when the locale changes
       name: screenNames.siderealSolarTimeStringProperty,
       tandem: Tandem.ROOT.createTandem("siderealSolarTimeScreen"),
       backgroundColorProperty: MotionsOfTheSunColors.backgroundColorProperty,
     }),
     new ZodiacScreen({
+      // The screen name Property updates automatically when the locale changes
       name: screenNames.zodiacStringProperty,
       tandem: Tandem.ROOT.createTandem("zodiacScreen"),
       backgroundColorProperty: MotionsOfTheSunColors.backgroundColorProperty,
@@ -77,6 +79,7 @@ onReadyToLaunch(() => {
       },
     }),
 
+    // Optional: fill in credits shown in Help → About
     credits: {
       leadDesign: "NAAP / OpenLyceum",
       softwareDevelopment: "OpenLyceum",
