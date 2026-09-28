@@ -7,12 +7,11 @@ lab: **Sun Paths**, **Sidereal and Solar Time**, and **Zodiac**.
 Built with Vite 8, TypeScript 7, and Biome 2.
 
 > **Status:** three screens implemented (Sun Paths, Sidereal & Solar Time, Zodiac geocentric
-> Explorer + optional Lambert sky). See `doc/parity-report.md` for Flash feature parity and
-> `doc/implementation-notes.md` for architecture.
+> Explorer + optional Lambert sky). See `doc/implementation-notes.md` for architecture.
 
 ## Features
 
-- Three screens (see `doc/implementation-notes.md` / `doc/parity-report.md`):
+- Three screens (see `doc/implementation-notes.md`):
   1. **Sun Paths** (`src/sun-paths/`) — a horizon diagram showing the Sun's daily path across the
      sky for any latitude and date (NAAP `sunmotions.swf`, the Motions of the Sun simulator).
   2. **Sidereal and Solar Time** (`src/sidereal-solar-time/`) — Earth's rotation vs. its orbit: why

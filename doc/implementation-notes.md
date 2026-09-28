@@ -215,7 +215,7 @@ These are fixed and must not be re-derived:
 | D4 | Animated jumps = cubic ease-in-out inside `step(dt)`; no Flash Timer/twixt |
 | D5 | Sun Paths uses horizon-frame `SkyProjection` (not RS `CelestialSphereNode`/`SkyModel` or WebGL). Flash-faithful sky/horizon shade + NCP/SCP axes live in `SkyBowlShadingNode` / `HorizonShadeNode` / `CelestialPoleAxisNode`. Geocentric Zodiac reuses `SkyProjection` + camera drag |
 | D6 | Draggable Sun: default `timeOfDay` mode on declination circle; optional `dayOfYear` drags along analemma |
-| D7 | ~~Screen 2 exposes SIMPLE mode only~~ — **superseded:** Screen 2 now shows a SIMPLE/JULIAN year-length radio bound to `timeMaster.modeProperty`; the day-of-year slider hides in JULIAN mode (matches Flash). See `doc/parity-report.md` |
+| D7 | ~~Screen 2 exposes SIMPLE mode only~~ — **superseded:** Screen 2 now shows a SIMPLE/JULIAN year-length radio bound to `timeMaster.modeProperty`; the day-of-year slider hides in JULIAN mode (matches Flash). |
 | D8 | Zodiac screen adds `ZodiacSunStrip` (configurations-sim starfield + Sun) even though Flash lacked it |
 | D9 | `attachSkyCameraInteraction`'s `sky` param narrowed to `{ advanceSiderealTime(hours): void }` |
 
