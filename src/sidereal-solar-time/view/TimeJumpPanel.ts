@@ -26,6 +26,7 @@
  */
 
 import { DerivedProperty, type TReadOnlyProperty } from "scenerystack/axon";
+import { toFixed } from "scenerystack/dot";
 import { GridBox, HBox, RichText, Text, VBox } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import { RectangularPushButton } from "scenerystack/sun";
@@ -265,14 +266,14 @@ export class TimeJumpPanel {
     const solarDaysReadout = new Text(
       new DerivedProperty(
         [strings.solarDaysSinceStringProperty, tm.solarDaysSinceVernalEquinoxProperty],
-        (label, d) => `${label} ${d.toFixed(3)}`,
+        (label, d) => `${label} ${toFixed(d, 3)}`,
       ),
       { font: READOUT_FONT, fill: textFill, maxWidth: PANEL_CONTENT_WIDTH },
     );
     const siderealDaysReadout = new Text(
       new DerivedProperty(
         [strings.siderealDaysSinceStringProperty, tm.siderealDaysSinceVernalEquinoxProperty],
-        (label, d) => `${label} ${d.toFixed(3)}`,
+        (label, d) => `${label} ${toFixed(d, 3)}`,
       ),
       { font: READOUT_FONT, fill: textFill, maxWidth: PANEL_CONTENT_WIDTH },
     );

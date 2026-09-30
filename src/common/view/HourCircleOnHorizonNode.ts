@@ -10,6 +10,7 @@ import { Multilink, type TReadOnlyProperty } from "scenerystack/axon";
 import type { Vector3 } from "scenerystack/dot";
 import { Node, Path, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
+import { StringManager } from "../../i18n/StringManager.js";
 import MotionsOfTheSunColors from "../../MotionsOfTheSunColors.js";
 import { equatorialToHorizonVector } from "../SkyCoordinates.js";
 import type { SkyProjection } from "../SkyProjection.js";
@@ -47,7 +48,7 @@ export class HourCircleOnHorizonNode extends Node {
     });
     const front = new Path(null, { stroke: MotionsOfTheSunColors.accentColorProperty, lineWidth: 1.5 });
     this.hoverTarget = front;
-    const label = new Text("0ʰ", {
+    const label = new Text(StringManager.getInstance().getControls().hourCircleZeroStringProperty, {
       font: new PhetFont(12),
       fill: MotionsOfTheSunColors.accentColorProperty,
       pickable: false,

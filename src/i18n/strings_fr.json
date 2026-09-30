@@ -26,6 +26,7 @@
     "northCelestialPoleAbbreviation": "PCN",
     "southCelestialPoleAbbreviation": "PCS",
     "zenith": "Zénith",
+    "hourCircleZero": "0ʰ",
     "nadir": "Nadir",
     "months": {
       "january": "Janvier",

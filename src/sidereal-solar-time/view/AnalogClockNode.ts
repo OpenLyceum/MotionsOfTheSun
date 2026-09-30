@@ -24,7 +24,7 @@
  */
 
 import type { TReadOnlyProperty } from "scenerystack/axon";
-import { DragListener, KeyboardListener, Line, Node, Text, type TPaint } from "scenerystack/scenery";
+import { DragListener, KeyboardDragListener, Line, Node, Text, type TPaint } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import { ClockNode } from "../../common/view/ClockNode.js";
 import { dialPoint, normalizeDeltaDegrees, pointerToClockDegrees } from "../../common/view/clockGeometry.js";
@@ -90,17 +90,19 @@ class AnalogClockHandNode extends Node {
       }),
     );
 
+    // Same five-minute nudge the pointer drag applies, on arrow keys. The keyboard
+    // help row for these keys is MotionsOfTheSunHotkeyData.ANALOG_CLOCK_HANDS.
+    // dragDelta 1 is one step; Shift is a quarter step. Up is -y in view space.
     this.addInputListener(
-      new KeyboardListener({
-        keys: ["arrowLeft", "arrowRight", "arrowUp", "arrowDown"],
-        fire: (_event, keysPressed) => {
-          const forward = keysPressed.includes("arrowRight") || keysPressed.includes("arrowUp");
-          // Hour hand: 5 min = 5/60 of an hour-hand revolution → 2.5°; minute: 5 min = 30°.
-          const deg =
-            this.kind === "hour"
-              ? (forward ? 1 : -1) * (FIVE_MINUTES_DAYS * 360)
-              : (forward ? 1 : -1) * (FIVE_MINUTES_DAYS * 360 * 24);
-          onRotated(deg);
+      new KeyboardDragListener({
+        dragDelta: 1,
+        shiftDragDelta: 0.25,
+        drag: (_event, listener) => {
+          const horizontal = listener.modelDelta.x;
+          const vertical = -listener.modelDelta.y;
+          const steps = Math.abs(horizontal) >= Math.abs(vertical) ? horizontal : vertical;
+          const degreesPerStep = this.kind === "hour" ? FIVE_MINUTES_DAYS * 360 : FIVE_MINUTES_DAYS * 360 * 24;
+          onRotated(steps * degreesPerStep);
         },
       }),
     );
