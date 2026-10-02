@@ -23,11 +23,12 @@
  * title above the face uses the general panel text color.
  */
 
-import type { TReadOnlyProperty } from "scenerystack/axon";
+import { PatternStringProperty, type TReadOnlyProperty } from "scenerystack/axon";
 import { DragListener, KeyboardDragListener, Line, Node, Text, type TPaint } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import { ClockNode } from "../../common/view/ClockNode.js";
 import { dialPoint, normalizeDeltaDegrees, pointerToClockDegrees } from "../../common/view/clockGeometry.js";
+import { StringManager } from "../../i18n/StringManager.js";
 import MotionsOfTheSunColors from "../../MotionsOfTheSunColors.js";
 import { ANALOG_CLOCK_RADIUS, CONTROL_FONT_SIZE } from "../../MotionsOfTheSunConstants.js";
 
@@ -195,16 +196,19 @@ export class AnalogClockNode extends ClockNode {
         { hour: 18, prefix: "6", ampm: options.pmStringProperty },
       ];
       for (const helper of helpers) {
-        const prefixText = new Text(`${helper.prefix} `, { font: new PhetFont(5.5), fill: ink });
-        const ampmText = new Text(helper.ampm, {
-          font: new PhetFont(5.5),
-          fill: ink,
-          left: prefixText.right + 1,
-          centerY: prefixText.centerY,
+        const hourPattern = new PatternStringProperty(
+          StringManager.getInstance().getControls().clockHourPatternStringProperty,
+          {
+            hour: helper.prefix,
+            ampm: helper.ampm,
+          },
+        );
+        const center = dialPoint(helper.hour, r * 0.42, 24);
+        const label = new Text(hourPattern, { font: new PhetFont(5.5), fill: ink, pickable: false });
+        label.localBoundsProperty.link(() => {
+          label.center = center;
         });
-        const group = new Node({ children: [prefixText, ampmText], pickable: false });
-        group.center = dialPoint(helper.hour, r * 0.42, 24);
-        this.addChild(group);
+        this.addChild(label);
       }
     }
 

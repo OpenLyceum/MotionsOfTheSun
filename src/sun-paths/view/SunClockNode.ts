@@ -13,7 +13,7 @@
  * hand colour.
  */
 
-import type { NumberProperty, TReadOnlyProperty } from "scenerystack/axon";
+import { type NumberProperty, PatternStringProperty, type TReadOnlyProperty } from "scenerystack/axon";
 import { Shape } from "scenerystack/kite";
 import { DragListener, KeyboardListener, Node, Path, Text, type TPaint } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
@@ -24,6 +24,7 @@ import {
   pointerToClockDegrees,
   pointerToClockRadians,
 } from "../../common/view/clockGeometry.js";
+import { StringManager } from "../../i18n/StringManager.js";
 import MotionsOfTheSunColors from "../../MotionsOfTheSunColors.js";
 import { DAY_OF_YEAR_RANGE, SUN_CLOCK_RADIUS } from "../../MotionsOfTheSunConstants.js";
 
@@ -165,16 +166,19 @@ export class SunClockNode extends ClockNode {
       { hour: 18, prefix: "6", ampm: options.pmStringProperty },
     ];
     for (const helper of helpers) {
-      const prefixText = new Text(`${helper.prefix} `, { font: new PhetFont(6.5), fill: ink });
-      const ampmText = new Text(helper.ampm, {
-        font: new PhetFont(6.5),
-        fill: ink,
-        left: prefixText.right + 1,
-        centerY: prefixText.centerY,
+      const hourPattern = new PatternStringProperty(
+        StringManager.getInstance().getControls().clockHourPatternStringProperty,
+        {
+          hour: helper.prefix,
+          ampm: helper.ampm,
+        },
+      );
+      const center = dialPoint(helper.hour, r * 0.42, HOURS_ON_DIAL);
+      const label = new Text(hourPattern, { font: new PhetFont(6.5), fill: ink });
+      label.localBoundsProperty.link(() => {
+        label.center = center;
       });
-      const group = new Node({ children: [prefixText, ampmText] });
-      group.center = dialPoint(helper.hour, r * 0.42, HOURS_ON_DIAL);
-      helperLabels.addChild(group);
+      helperLabels.addChild(label);
     }
 
     const applyDayDelta = (dayDelta: number): void => {

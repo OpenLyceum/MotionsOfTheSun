@@ -59,7 +59,8 @@
     "northAbbreviation": "N",
     "eastAbbreviation": "E",
     "southAbbreviation": "S",
-    "westAbbreviation": "W"
+    "westAbbreviation": "W",
+    "clockHourPattern": "{{hour}} {{ampm}}"
   },
   "keyboardHelp": {
     "sky": "Sky",
