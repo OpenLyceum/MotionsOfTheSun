@@ -3,6 +3,9 @@
  *
  * Shared sizing and layout for panel controls (sliders, checkboxes, NumberControls).
  * Import these instead of repeating scale / track-size values in each screen view.
+ *
+ * Template-owned toolkit: each sim uses only some of these, so every export is tagged
+ * `@public` to tell dead-code checkers (knip) that an unused one is not dead code.
  */
 
 import { NumberControl } from "scenerystack/scenery-phet";
@@ -16,14 +19,14 @@ import {
 } from "../MotionsOfTheSunConstants.js";
 import { FLAT_RECTANGULAR_BUTTON_OPTIONS } from "./MotionsOfTheSunButtonOptions.js";
 
-/** Options for standalone HSlider instances in control panels. */
+/** Options for standalone HSlider instances in control panels. @public */
 export const MOTIONS_OF_THE_SUN_SLIDER_OPTIONS = {
   trackSize: STANDALONE_SLIDER_TRACK_SIZE,
   thumbSize: SLIDER_THUMB_SIZE,
   trackFillEnabled: MotionsOfTheSunColors.textColorProperty,
 } satisfies HSliderOptions;
 
-/** Base NumberControl options; spread into each instance and add titleNodeOptions as needed. */
+/** Base NumberControl options; spread into each instance and add titleNodeOptions as needed. @public */
 export const MOTIONS_OF_THE_SUN_NUMBER_CONTROL_OPTIONS = {
   arrowButtonOptions: { ...FLAT_RECTANGULAR_BUTTON_OPTIONS, scale: 0.75 },
   layoutFunction: NumberControl.createLayoutFunction4({
@@ -38,7 +41,7 @@ export const MOTIONS_OF_THE_SUN_NUMBER_CONTROL_OPTIONS = {
   },
 };
 
-/** Themed checkbox chrome for dark panel backgrounds. */
+/** Themed checkbox chrome for dark panel backgrounds. @public */
 export const MOTIONS_OF_THE_SUN_CHECKBOX_OPTIONS = {
   boxWidth: CHECKBOX_BOX_WIDTH,
   spacing: 4,
