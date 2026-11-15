@@ -65,8 +65,6 @@ export const MONTH_NAMES = [
   "december",
 ] as const;
 
-export type MonthName = (typeof MONTH_NAMES)[number];
-
 /** Zodiac sign keys in ecliptic longitude order (0 = Aries at λ=0°). */
 export const SIGN_KEYS = [
   "aries",
@@ -82,8 +80,6 @@ export const SIGN_KEYS = [
   "aquarius",
   "pisces",
 ] as const;
-
-export type SignKey = (typeof SIGN_KEYS)[number];
 
 /**
  * Compute ecliptic longitude (radians, [0, 2π)) from solar days since vernal equinox

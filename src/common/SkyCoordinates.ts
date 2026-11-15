@@ -28,21 +28,21 @@ export type HorizontalCoordinates = { altDeg: number; azDeg: number };
 /** Where a star of a given declination spends its day at a given latitude. */
 export type DeclinationBand = "circumpolar" | "risesAndSets" | "neverRises";
 
-export const HOURS_PER_DAY = 24;
+const HOURS_PER_DAY = 24;
 const DEG_TO_RAD = Math.PI / 180;
 const RAD_TO_DEG = 180 / Math.PI;
 const HOURS_TO_RAD = (2 * Math.PI) / HOURS_PER_DAY;
 
 export const degToRad = (deg: number): number => deg * DEG_TO_RAD;
 export const radToDeg = (rad: number): number => rad * RAD_TO_DEG;
-export const hoursToRadians = (hours: number): number => hours * HOURS_TO_RAD;
-export const radiansToHours = (rad: number): number => rad / HOURS_TO_RAD;
+const hoursToRadians = (hours: number): number => hours * HOURS_TO_RAD;
+const radiansToHours = (rad: number): number => rad / HOURS_TO_RAD;
 
 /** Wraps an hour value into [0, 24). */
 export const normalizeHours = (hours: number): number => ((hours % HOURS_PER_DAY) + HOURS_PER_DAY) % HOURS_PER_DAY;
 
 /** Wraps a degree value into [0, 360). */
-export const normalizeDegrees = (deg: number): number => ((deg % 360) + 360) % 360;
+const normalizeDegrees = (deg: number): number => ((deg % 360) + 360) % 360;
 
 /** Hour angle H = LST − RA, wrapped into [−12, 12) hours. */
 export const hourAngle = (raHours: number, lstHours: number): number => {

@@ -30,10 +30,10 @@ export const RESET_ALL_BUTTON_BOTTOM_MARGIN = 10;
 export const PANEL_CORNER_RADIUS = 6;
 
 /** Horizontal padding inside control panels. */
-export const PANEL_X_MARGIN = 8;
+const PANEL_X_MARGIN = 8;
 
 /** Vertical padding inside control panels. */
-export const PANEL_Y_MARGIN = 7;
+const PANEL_Y_MARGIN = 7;
 
 /** Default font size (px) for labels on panel controls. */
 export const CONTROL_FONT_SIZE = 12;
@@ -60,7 +60,7 @@ export const SLIDER_THUMB_SIZE = new Dimension2(13, 26);
 export const SPHERE_RADIUS = 170;
 
 /** Max side length (px) of the sky-view panel, kept near the dome diameter. */
-export const SKY_VIEW_MAX_SIZE = 2 * SPHERE_RADIUS;
+const SKY_VIEW_MAX_SIZE = 2 * SPHERE_RADIUS;
 
 /** Vertical gap between a sky sphere and the coordinate readout beneath it. */
 export const VIEW_READOUT_GAP = 10;
@@ -77,7 +77,7 @@ export const COT_OBLIQUITY = 2.30644456403329;
 export const SIDEREAL_RATE = 1.0027397260274;
 
 /** GMST epoch offset (days): GMST at J2000.0 epoch / 2π, fractional sidereal day. */
-export const SIDEREAL_EPOCH_OFFSET = 0.280464857844662;
+const SIDEREAL_EPOCH_OFFSET = 0.280464857844662;
 
 /** Fundamental angular frequency of Earth's orbital motion (radians per day). */
 export const EOT_FUNDAMENTAL_RAD_PER_DAY = 0.017214206;
@@ -142,10 +142,10 @@ export const STEP_DAYS_PER_SECOND = 1;
 export const ZODIAC_LATITUDE_DEG = 41;
 
 /** Central azimuth of the zodiac sky view (radians; π = south). */
-export const ZODIAC_CENTER_AZIMUTH_RAD = Math.PI;
+const ZODIAC_CENTER_AZIMUTH_RAD = Math.PI;
 
 /** Central altitude of the zodiac sky view (radians; slightly below horizon). */
-export const ZODIAC_CENTER_ALTITUDE_RAD = -0.1;
+const ZODIAC_CENTER_ALTITUDE_RAD = -0.1;
 
 /** Twilight half-range (degrees); sky brightens linearly across ±ZODIAC_TWILIGHT_RANGE_DEG. */
 export const ZODIAC_TWILIGHT_RANGE_DEG = 7;
@@ -192,7 +192,7 @@ export const WORLD_MAP_HEIGHT = 88;
 export const SUN_CLOCK_RADIUS = 58;
 
 /** Orbit radius (px) of the Earth-centered zodiac diagram (Phase 8). */
-export const EARTH_CENTERED_ORBIT_RADIUS = 130;
+const EARTH_CENTERED_ORBIT_RADIUS = 130;
 
 MotionsOfTheSunNamespace.register("MotionsOfTheSunConstants", {
   SCREEN_VIEW_MARGIN,

@@ -13,10 +13,10 @@ import { Vector3 } from "scenerystack/dot";
 import { OBLIQUITY_DEG, SIDEREAL_RATE, VE_DOY_OFFSET } from "../../MotionsOfTheSunConstants.js";
 
 /** Degrees of solar motion per calendar day (−360/365). */
-export const ZODIAC_GEOCENTRIC_AZ_RATE_DEG = -360 / 365;
+const ZODIAC_GEOCENTRIC_AZ_RATE_DEG = -360 / 365;
 
 /** Phase offset so day 0 ≈ early January / Capricorn (Flash `+ 10.8`). */
-export const ZODIAC_GEOCENTRIC_AZ_OFFSET_DAYS = 10.8;
+const ZODIAC_GEOCENTRIC_AZ_OFFSET_DAYS = 10.8;
 
 /** Flash `zodiacBandHalfAngle` (degrees from ecliptic). */
 export const ZODIAC_BAND_HALF_ANGLE_DEG = 24;

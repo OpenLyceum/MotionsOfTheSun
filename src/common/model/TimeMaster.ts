@@ -395,4 +395,4 @@ export class TimeMaster {
 MotionsOfTheSunNamespace.register("TimeMaster", TimeMaster);
 
 /** Tolerance-based equality for time values (1e-6 days ≈ 0.1 second). */
-export const timesAreEqual = (a: number, b: number): boolean => Math.abs(a - b) < TIME_EQUALITY_TOLERANCE;
+const timesAreEqual = (a: number, b: number): boolean => Math.abs(a - b) < TIME_EQUALITY_TOLERANCE;

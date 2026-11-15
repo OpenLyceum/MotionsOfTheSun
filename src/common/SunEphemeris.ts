@@ -74,7 +74,7 @@ export const getSunPosition = (day: number): { raHours: number; decDeg: number }
  *
  * @param day - decimal day-of-year (Jan 1 00:00 UT = 0.0; Flash convention)
  */
-export const getEqnOfTimeRad = (day: number): number =>
+const getEqnOfTimeRad = (day: number): number =>
   -4.3796019e-6 +
   0.001830724 * Math.cos(a * day) -
   0.032070267 * Math.sin(a * day) -

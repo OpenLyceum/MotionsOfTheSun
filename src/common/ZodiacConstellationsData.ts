@@ -8,8 +8,8 @@
  * ecliptic (lon, lat) star positions plus polyline connectivity, derived from
  * the original NAAP Flash `constellationsData.as` pixel data.
  *
- * Also exports `equatorialToEcliptic` and `OBLIQUITY` for callers that need
- * the inverse transform (ecliptic → equatorial) using the same constant.
+ * Also exports `OBLIQUITY` for callers that need the ecliptic obliquity
+ * independently of the constellation table.
  */
 
 import MotionsOfTheSunNamespace from "../MotionsOfTheSunNamespace.js";
@@ -376,7 +376,7 @@ function rawToEquatorial(star: StarPos): { ra: number; dec: number } {
   return { ra, dec };
 }
 
-export function equatorialToEcliptic(ra: number, dec: number): EclipticStar {
+function equatorialToEcliptic(ra: number, dec: number): EclipticStar {
   const sinDec = Math.sin(dec);
   const cosDec = Math.cos(dec);
   const sinRa = Math.sin(ra);

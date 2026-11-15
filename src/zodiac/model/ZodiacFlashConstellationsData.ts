@@ -6,8 +6,8 @@
  * Coordinates are equatorial (+Z = NCP, +X = RA 0h).
  */
 
-export type FlashStar = { readonly name: string; readonly x: number; readonly y: number; readonly z: number };
-export type FlashPathSeg = { readonly m: number; readonly b: number; readonly e: number };
+type FlashStar = { readonly name: string; readonly x: number; readonly y: number; readonly z: number };
+type FlashPathSeg = { readonly m: number; readonly b: number; readonly e: number };
 export type FlashConstellation = {
   readonly key: string;
   readonly labelRaHours: number;

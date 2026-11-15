@@ -17,10 +17,6 @@ export const dialPoint = (index: number, radius: number, count: number): Vector2
   return new Vector2(Math.sin(angle) * radius, -Math.cos(angle) * radius);
 };
 
-/** Hours → hand angle in radians (cw from top) for a dial spanning `hoursOnDial` hours. */
-export const hoursToClockRadians = (hours: number, hoursOnDial: number): number =>
-  (((hours % hoursOnDial) + hoursOnDial) % hoursOnDial) * (TWO_PI / hoursOnDial);
-
 /** Pointer position (clock-centered, y-down) → angle in [0, 2π), cw from top. */
 export const pointerToClockRadians = (x: number, y: number): number => (Math.atan2(x, -y) + TWO_PI) % TWO_PI;
 

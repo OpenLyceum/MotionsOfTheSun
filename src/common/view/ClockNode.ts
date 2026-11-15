@@ -18,7 +18,7 @@ import { Circle, Line, Node, type NodeOptions, Text, type TPaint } from "scenery
 import { PhetFont } from "scenerystack/scenery-phet";
 import { dialPoint } from "./clockGeometry.js";
 
-export type ClockTickConfig = {
+type ClockTickConfig = {
   /** Number of ticks around the dial (24 for an hour dial, 12 for a standard clock). */
   count: number;
   /** Every Nth tick (0, majorEvery, 2·majorEvery, …) is drawn longer and thicker. */
@@ -37,7 +37,7 @@ export type ClockTickConfig = {
  * is centered at `radiusFraction · radius`; every `majorEvery`-th numeral is
  * drawn bold and at `majorFontSize`, the rest at `minorFontSize`.
  */
-export type ClockNumeralConfig = {
+type ClockNumeralConfig = {
   /** Number of evenly-spaced numerals (usually matches `ticks.count`). */
   count: number;
   /** Text for the numeral at each index (0 = top, clockwise). */
@@ -52,7 +52,7 @@ export type ClockNumeralConfig = {
   fill?: TPaint;
 };
 
-export type ClockNodeSelfOptions = {
+type ClockNodeSelfOptions = {
   radius: number;
   faceFill: TPaint;
   faceStroke: TPaint;
