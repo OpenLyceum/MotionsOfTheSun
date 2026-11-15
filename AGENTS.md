@@ -67,7 +67,7 @@ Each screen registers `*ScreenSummaryContent` and `*KeyboardHelpContent`, with e
 | `ZodiacModel.test.ts` | View modes, day advancement |
 | `geocentricZodiacMath.test.ts`, `zodiacBandGraphics.test.ts`, `lambertProjection.test.ts` | Zodiac geometry |
 | `analemmaClosestDay.test.ts` | Analemma overlay |
-| `SkyCoordinates.test.ts`, `ViewDirection.test.ts`, `skyGraphics.test.ts` | Shared sky helpers |
+| `SkyCoordinates.test.ts`, `skyGraphics.test.ts` | Shared sky helpers |
 | `TimeModel.test.ts` | Play/pause elapsed time |
 | `memory-leak.test.ts` | Dispose regression |
 
@@ -75,7 +75,7 @@ Each screen registers `*ScreenSummaryContent` and `*KeyboardHelpContent`, with e
 
 ## Development notes
 
-**Donor provenance (from `RotatingSky/`):** `SkyCoordinates.ts`, `SkyProjection.ts`, `skyMorph.ts`, `ViewDirection.ts`, `skyGraphics.ts`, `starGraphics.ts`, `skyViewLayout.ts`, `HorizonDomeNode.ts`, `HorizonGroundNode.ts`, `CelestialPoleAxisNode.ts`, `CelestialEquatorOnHorizonNode.ts`, `HourCircleOnHorizonNode.ts`, `attachSkyCameraInteraction.ts`, and control/hotkey option bundles — copied with `RotatingSky*` → `MotionsOfTheSun*` renames. **Not copied:** `Star.ts`, `SkyModel.ts`, `StarPatterns.ts`.
+**Donor provenance (from `RotatingSky/`):** `SkyCoordinates.ts`, `SkyProjection.ts`, `skyMorph.ts`, `skyGraphics.ts`, `starGraphics.ts`, `skyViewLayout.ts`, `HorizonDomeNode.ts`, `HorizonGroundNode.ts`, `CelestialPoleAxisNode.ts`, `CelestialEquatorOnHorizonNode.ts`, `HourCircleOnHorizonNode.ts`, `attachSkyCameraInteraction.ts`, and control/hotkey option bundles — copied with `RotatingSky*` → `MotionsOfTheSun*` renames. **Not copied:** `Star.ts`, `SkyModel.ts`, `StarPatterns.ts`.
 
 **From `SolarSystemModels/`:** `ZodiacConstellationsData.ts`, `ZodiacStripBackground.ts` (verbatim + namespace rename); Lambert constellation art uses SSM polylines; geocentric stick figures come from Flash `ZodiacFlashConstellationsData.ts`.
 
