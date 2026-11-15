@@ -139,6 +139,7 @@ export const getHourAngleHours = (siderealHours: number, raHours: number): numbe
  * @param latRad - observer latitude in radians (+N)
  * @param decRad - solar declination in radians
  * @param haRad  - solar hour angle in radians
+ * @internal Exported for unit tests; not part of the application API.
  */
 export const getSolarAltitudeRad = (latRad: number, decRad: number, haRad: number): number => {
   const sinAlt = Math.sin(latRad) * Math.sin(decRad) + Math.cos(latRad) * Math.cos(decRad) * Math.cos(haRad);
@@ -157,6 +158,7 @@ export const getSolarAltitudeRad = (latRad: number, decRad: number, haRad: numbe
  * @param haRad     - solar hour angle in radians
  * @param decRad    - solar declination in radians
  * @param latRad    - observer latitude in radians
+ * @internal Exported for unit tests; not part of the application API.
  */
 export const getSolarAzimuthRad = (zenithRad: number, haRad: number, decRad: number, latRad: number): number => {
   const cosPhi =

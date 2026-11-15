@@ -45,6 +45,7 @@ const DEG = Math.PI / 180;
 /**
  * Flash Earth azimuth on the ecliptic/horizon plane (degrees):
  * `az = −360/365 × (dayOfYear + 10.8)`.
+ * @internal Exported for unit tests; not part of the application API.
  */
 export const geocentricEarthAzDeg = (dayOfYear: number): number =>
   ZODIAC_GEOCENTRIC_AZ_RATE_DEG * (dayOfYear + ZODIAC_GEOCENTRIC_AZ_OFFSET_DAYS);
