@@ -47,7 +47,7 @@ function xToDay(x: number, width: number): number {
 export type CalendarStripNodeOptions = {
   dayOfYearProperty: NumberProperty;
   /** Localized short month names (length 12), e.g. Jan / Ene / Jan. */
-  monthAbbreviationProperties: ReadonlyArray<TReadOnlyProperty<string>>;
+  monthAbbreviationProperties: readonly TReadOnlyProperty<string>[];
   accessibleNameProperty: TReadOnlyProperty<string>;
   accessibleHelpTextProperty: TReadOnlyProperty<string>;
 };

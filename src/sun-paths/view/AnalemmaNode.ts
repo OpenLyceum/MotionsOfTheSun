@@ -58,7 +58,7 @@ export class AnalemmaNode extends Node {
         const front = new Shape();
         const back = new Shape();
 
-        const points = [];
+        const points: ReturnType<typeof equatorialToHorizonVector>[] = [];
         for (let d = 0; d < 365; d++) {
           const { raHours: ra, decDeg: dec } = getSunPosition(d);
           const eotHours = getEqnOfTimeHours(d);
