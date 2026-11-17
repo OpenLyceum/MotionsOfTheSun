@@ -6,7 +6,8 @@
  * converted to equatorial (ra, dec) using the inverse of `equatorialToEcliptic`
  * (from ZodiacConstellationsData), then projected onto the screen via `projectCelestial`.
  *
- * Labels are shown/hidden via `constellationLabelsVisibleProperty`.
+ * Labels are shown/hidden via `constellationLabelsVisibleProperty`. All nodes are
+ * created once and updated in place as sidereal time animates.
  *
  * Formula (ecliptic → equatorial; porting plan Step 4.5):
  *   dec = asin(sin lat · cos ε + cos lat · sin ε · sin lon)
@@ -38,13 +39,23 @@ function eclipticToEquatorial(lon: number, lat: number): { ra: number; dec: numb
   return { ra, dec };
 }
 
+/** The persistent nodes that draw one constellation; repositioned on every redraw. */
+type ConstellationNodes = {
+  readonly constellation: (typeof ECLIPTIC_CONSTELLATIONS)[number];
+  readonly linePath: Path;
+  readonly dots: Circle[];
+  readonly label: Text;
+};
+
 export class ZodiacConstellationsNode extends Node {
   private readonly widthPx: number;
   private readonly offset: number;
   private readonly originX: number;
   private readonly labelContainer: Node;
-  private readonly lineContainer: Node;
-  private readonly dotContainer: Node;
+
+  // Built once and updated in place. Sidereal time animates, so rebuilding these
+  // Property-painted nodes on every redraw would leak color-Property listeners.
+  private readonly constellationNodes: ConstellationNodes[];
 
   public constructor(model: ZodiacModel, widthPx: number, labelStrings: Record<string, string>) {
     super({ pickable: false });
@@ -53,17 +64,35 @@ export class ZodiacConstellationsNode extends Node {
     this.offset = viewOffset(widthPx);
     this.originX = widthPx / 2;
 
-    this.lineContainer = new Node();
-    this.dotContainer = new Node();
+    const lineContainer = new Node();
+    const dotContainer = new Node();
     this.labelContainer = new Node();
 
-    this.addChild(this.lineContainer);
-    this.addChild(this.dotContainer);
+    this.constellationNodes = ECLIPTIC_CONSTELLATIONS.map((constellation) => {
+      const linePath = new Path(null, {
+        stroke: MotionsOfTheSunColors.constellationLineColorProperty,
+        lineWidth: 1,
+      });
+      const dots = constellation.eclipticStars.map(
+        () => new Circle(2, { fill: MotionsOfTheSunColors.constellationLineColorProperty }),
+      );
+      const label = new Text(labelStrings[constellation.name] ?? constellation.name, {
+        font: new PhetFont({ size: 10, style: "italic" }),
+        fill: MotionsOfTheSunColors.constellationLabelColorProperty,
+      });
+      lineContainer.addChild(linePath);
+      dotContainer.children = [...dotContainer.children, ...dots];
+      this.labelContainer.addChild(label);
+      return { constellation, linePath, dots, label };
+    });
+
+    this.addChild(lineContainer);
+    this.addChild(dotContainer);
     this.addChild(this.labelContainer);
 
-    // Build static constellation art layers; they are redrawn on siderealTime changes
+    // Reposition the constellation art whenever sidereal time changes
     Multilink.lazyMultilink([model.siderealTimeRadProperty], (lst) => {
-      this._redraw(lst, labelStrings);
+      this._redraw(lst);
     });
 
     // Bind label visibility
@@ -72,15 +101,11 @@ export class ZodiacConstellationsNode extends Node {
     });
 
     // Initial draw
-    this._redraw(model.siderealTimeRadProperty.value, labelStrings);
+    this._redraw(model.siderealTimeRadProperty.value);
   }
 
-  private _redraw(lst: number, labelStrings: Record<string, string>): void {
-    this.lineContainer.removeAllChildren();
-    this.dotContainer.removeAllChildren();
-    this.labelContainer.removeAllChildren();
-
-    for (const constellation of ECLIPTIC_CONSTELLATIONS) {
+  private _redraw(lst: number): void {
+    for (const { constellation, linePath, dots, label } of this.constellationNodes) {
       // Convert all stars from ecliptic → equatorial, then project
       const screenPositions: Array<{ x: number; y: number } | null> = constellation.eclipticStars.map(
         ({ lon, lat }) => {
@@ -111,39 +136,27 @@ export class ZodiacConstellationsNode extends Node {
           }
         }
       }
-      const linePath = new Path(lineShape, {
-        stroke: MotionsOfTheSunColors.constellationLineColorProperty,
-        lineWidth: 1,
-      });
-      this.lineContainer.addChild(linePath);
+      linePath.shape = lineShape;
 
       // ── Star dots (2 px radius) ─────────────────────────────────────────
-      for (const pos of screenPositions) {
-        if (!pos) {
-          continue;
+      dots.forEach((dot, i) => {
+        const pos = screenPositions[i];
+        dot.visible = !!pos;
+        if (pos) {
+          dot.centerX = pos.x;
+          dot.centerY = pos.y;
         }
-        const dot = new Circle(2, {
-          fill: MotionsOfTheSunColors.constellationLineColorProperty,
-          centerX: pos.x,
-          centerY: pos.y,
-        });
-        this.dotContainer.addChild(dot);
-      }
+      });
 
       // ── Centroid label ──────────────────────────────────────────────────
       // Compute centroid from visible stars
       const visible = screenPositions.filter((p) => p !== null) as Array<{ x: number; y: number }>;
+      label.visible = visible.length > 0;
       if (visible.length > 0) {
         const cx = visible.reduce((sum, p) => sum + p.x, 0) / visible.length;
         const cy = visible.reduce((sum, p) => sum + p.y, 0) / visible.length;
-        const nameStr = labelStrings[constellation.name] ?? constellation.name;
-        const label = new Text(nameStr, {
-          font: new PhetFont({ size: 10, style: "italic" }),
-          fill: MotionsOfTheSunColors.constellationLabelColorProperty,
-          centerX: cx,
-          centerY: cy - 12,
-        });
-        this.labelContainer.addChild(label);
+        label.centerX = cx;
+        label.centerY = cy - 12;
       }
     }
   }
