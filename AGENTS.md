@@ -49,6 +49,12 @@ Three **independent** screen models — no shared root state.
 Follows the shared [OpenLyceum accessibility convention](https://github.com/OpenLyceum/Baton/blob/main/ACCESSIBILITY.md).
 Each screen registers `*ScreenSummaryContent` and `*KeyboardHelpContent`, with explicit `pdomOrder`. A11y strings live under `a11y.sunPaths`, `a11y.siderealSolarTime`, and `a11y.zodiac` in each locale JSON, via `StringManager.getSunPathsA11yStrings()` / `getSiderealSolarTimeA11yStrings()` / `getZodiacA11yStrings()`. Keep `currentDetailsContent` live over model state; every interactive node needs an `accessibleName`.
 
+## Compliance carve-outs
+
+- **Hardcoded colours (interpolated profiles):** `ZodiacSkyNode.ts` builds `new Color(...)` by
+  interpolating existing `ProfileColorProperty` RGB channels for sky gradients. Not a separate
+  theme colour — base colours live in `MotionsOfTheSunColors.ts`.
+
 ## Testing
 
 | Path | Purpose |
