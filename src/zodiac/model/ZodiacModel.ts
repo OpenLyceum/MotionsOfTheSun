@@ -186,7 +186,7 @@ export class ZodiacModel implements TModel {
 
   public constructor() {
     this.timeMaster = new TimeMaster();
-    this.timer = new TimeModel(false); // starts paused
+    this.timer = new TimeModel(); // starts paused
 
     // When an eased jump starts, pause continuous playback.
     this.timeMaster.isAnimatingProperty.lazyLink((isAnimating) => {

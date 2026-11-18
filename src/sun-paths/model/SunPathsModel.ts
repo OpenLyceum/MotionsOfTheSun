@@ -28,12 +28,12 @@ import type { TReadOnlyProperty } from "scenerystack/axon";
 import {
   BooleanProperty,
   DerivedProperty,
-  EnumerationProperty,
+  type EnumerationProperty,
   NumberProperty,
   StringUnionProperty,
 } from "scenerystack/axon";
 import type { TModel } from "scenerystack/joist";
-import { TimeSpeed } from "scenerystack/scenery-phet";
+import type { TimeSpeed } from "scenerystack/scenery-phet";
 import { equatorialToHorizontal } from "../../common/SkyCoordinates.js";
 import {
   getEqnOfTimeMinutes,
@@ -41,7 +41,7 @@ import {
   getSiderealTimeHours,
   getSunPosition,
 } from "../../common/SunEphemeris.js";
-import { TimeModel, timeSpeedMultiplier } from "../../common/TimeModel.js";
+import { TimeModel } from "../../common/TimeModel.js";
 import {
   ANIMATION_HOURS_PER_SECOND,
   DAY_OF_YEAR_RANGE,
@@ -50,6 +50,7 @@ import {
   LATITUDE_RANGE,
   SIDEREAL_RATE,
   STEP_DAYS_PER_SECOND,
+  TIME_SPEED_MULTIPLIERS,
 } from "../../MotionsOfTheSunConstants.js";
 import MotionsOfTheSunNamespace from "../../MotionsOfTheSunNamespace.js";
 import motionsOfTheSunQueryParameters from "../../preferences/motionsOfTheSunQueryParameters.js";
@@ -145,8 +146,8 @@ export class SunPathsModel implements TModel {
     this.showAnalemmaProperty = new BooleanProperty(false);
     this.loopDayProperty = new BooleanProperty(false);
 
-    this.timer = new TimeModel(false);
-    this.timeSpeedProperty = new EnumerationProperty(TimeSpeed.NORMAL);
+    this.timer = new TimeModel({ timeSpeedMultipliers: TIME_SPEED_MULTIPLIERS });
+    this.timeSpeedProperty = this.timer.timeSpeedProperty; // owned (reset, disposed) by the timer
     this.animationModeProperty = new StringUnionProperty<SunPathsAnimationMode>("continuous", {
       validValues: ["continuous", "stepByDay"],
     });
@@ -212,7 +213,7 @@ export class SunPathsModel implements TModel {
     if (!this.timer.isPlayingProperty.value) {
       return;
     }
-    const multiplier = timeSpeedMultiplier(this.timeSpeedProperty.value);
+    const multiplier = this.timer.speedMultiplier;
 
     if (this.animationModeProperty.value === "stepByDay") {
       // Step-by-day: accrue elapsed time and advance the DATE by whole days
@@ -254,7 +255,6 @@ export class SunPathsModel implements TModel {
     this.showAnalemmaProperty.reset();
     this.loopDayProperty.reset();
     this.timer.reset();
-    this.timeSpeedProperty.reset();
     this.animationModeProperty.reset();
     this.sunDragModeProperty.reset();
     this.stepAccumulatorDays = 0;

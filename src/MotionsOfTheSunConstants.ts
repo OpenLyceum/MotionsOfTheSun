@@ -16,6 +16,7 @@
  */
 
 import { Dimension2, Range } from "scenerystack/dot";
+import { TimeSpeed } from "scenerystack/scenery-phet";
 import MotionsOfTheSunNamespace from "./MotionsOfTheSunNamespace.js";
 
 // ── Layout / chrome (screen pixels) ───────────────────────────────────────────
@@ -194,7 +195,15 @@ export const SUN_CLOCK_RADIUS = 58;
 /** Orbit radius (px) of the Earth-centered zodiac diagram (Phase 8). */
 const EARTH_CENTERED_ORBIT_RADIUS = 130;
 
+/** Playback speeds → real-seconds multiplier: SLOW = 0.25×, NORMAL = 1×, FAST = 4×. */
+export const TIME_SPEED_MULTIPLIERS: ReadonlyMap<TimeSpeed, number> = new Map([
+  [TimeSpeed.NORMAL, 1],
+  [TimeSpeed.SLOW, 0.25],
+  [TimeSpeed.FAST, 4],
+]);
+
 MotionsOfTheSunNamespace.register("MotionsOfTheSunConstants", {
+  TIME_SPEED_MULTIPLIERS,
   SCREEN_VIEW_MARGIN,
   RESET_ALL_BUTTON_BOTTOM_MARGIN,
   PANEL_CORNER_RADIUS,

@@ -16,12 +16,12 @@
  * in the view, bound directly to `timeMaster.modeProperty` (updates D7).
  */
 
-import { EnumerationProperty } from "scenerystack/axon";
+import type { EnumerationProperty } from "scenerystack/axon";
 import type { TModel } from "scenerystack/joist";
-import { TimeSpeed } from "scenerystack/scenery-phet";
+import type { TimeSpeed } from "scenerystack/scenery-phet";
 import { TimeMaster } from "../../common/model/TimeMaster.js";
-import { TimeModel, timeSpeedMultiplier } from "../../common/TimeModel.js";
-import { SOLAR_DAYS_PER_SECOND } from "../../MotionsOfTheSunConstants.js";
+import { TimeModel } from "../../common/TimeModel.js";
+import { SOLAR_DAYS_PER_SECOND, TIME_SPEED_MULTIPLIERS } from "../../MotionsOfTheSunConstants.js";
 import MotionsOfTheSunNamespace from "../../MotionsOfTheSunNamespace.js";
 
 export class SiderealSolarTimeModel implements TModel {
@@ -36,8 +36,8 @@ export class SiderealSolarTimeModel implements TModel {
 
   public constructor() {
     this.timeMaster = new TimeMaster();
-    this.timer = new TimeModel(false); // starts paused
-    this.timeSpeedProperty = new EnumerationProperty(TimeSpeed.NORMAL);
+    this.timer = new TimeModel({ timeSpeedMultipliers: TIME_SPEED_MULTIPLIERS }); // starts paused
+    this.timeSpeedProperty = this.timer.timeSpeedProperty; // owned (reset, disposed) by the timer
 
     // When an eased jump starts, pause continuous playback so the two
     // advancement paths do not fight each other.
@@ -65,7 +65,7 @@ export class SiderealSolarTimeModel implements TModel {
     this.timeMaster.step(dt);
 
     if (this.timer.isPlayingProperty.value && !this.timeMaster.isAnimatingProperty.value) {
-      const multiplier = timeSpeedMultiplier(this.timeSpeedProperty.value);
+      const multiplier = this.timer.speedMultiplier;
       this.timeMaster.incrementSolarTime(dt * SOLAR_DAYS_PER_SECOND * multiplier);
     }
   }
@@ -77,7 +77,6 @@ export class SiderealSolarTimeModel implements TModel {
   public reset(): void {
     this.timeMaster.reset();
     this.timer.reset();
-    this.timeSpeedProperty.reset();
   }
 }
 
