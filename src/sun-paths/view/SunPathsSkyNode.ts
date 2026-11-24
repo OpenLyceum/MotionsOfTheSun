@@ -55,7 +55,7 @@ const DEFAULT_ELEVATION = -degToRad(35);
 const DEFAULT_AZIMUTH = degToRad(215);
 
 /** Equator, 0h circle, and pole axes are always drawn in the Flash lab (no toggle). */
-const ALWAYS_VISIBLE = new BooleanProperty(true);
+const AlwaysVisibleProperty = new BooleanProperty(true);
 
 export class SunPathsSkyNode extends Node {
   /** The orthographic projection shared by all children. */
@@ -96,14 +96,18 @@ export class SunPathsSkyNode extends Node {
     const domeNode = new HorizonDomeNode(this.projection, model.latitudeProperty, {
       undersideVisibleProperty: model.showUndersideProperty,
     });
-    const poleAxes = new CelestialPoleAxisNode(this.projection, model.latitudeProperty, ALWAYS_VISIBLE);
+    const poleAxes = new CelestialPoleAxisNode(this.projection, model.latitudeProperty, AlwaysVisibleProperty);
 
-    const equatorNode = new CelestialEquatorOnHorizonNode(this.projection, model.latitudeProperty, ALWAYS_VISIBLE);
+    const equatorNode = new CelestialEquatorOnHorizonNode(
+      this.projection,
+      model.latitudeProperty,
+      AlwaysVisibleProperty,
+    );
     const hourCircleNode = new HourCircleOnHorizonNode(
       this.projection,
       model.latitudeProperty,
       model.siderealTimeHoursProperty,
-      ALWAYS_VISIBLE,
+      AlwaysVisibleProperty,
     );
 
     const eclipticNode = new EclipticOnHorizonNode(this.projection, model);

@@ -14,6 +14,7 @@
  */
 
 import type { NumberProperty, TReadOnlyProperty } from "scenerystack/axon";
+import { roundSymmetric } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import { DragListener, KeyboardListener, Line, Node, Path, Rectangle } from "scenerystack/scenery";
 import MotionsOfTheSunColors from "../../MotionsOfTheSunColors.js";
@@ -80,7 +81,7 @@ export class WorldMapNode extends Node {
     const lonToX = (lon: number): number => ((lon + 180) / 360) * width;
     const latToY = (lat: number): number => ((90 - lat) / 180) * height;
     const yToLatitude = (y: number): number =>
-      LATITUDE_RANGE.constrainValue(Math.round((90 - (y / height) * 180) * 10) / 10);
+      LATITUDE_RANGE.constrainValue(roundSymmetric((90 - (y / height) * 180) * 10) / 10);
 
     // ── Ocean + continents ────────────────────────────────────────────────────
     const ocean = new Rectangle(0, 0, width, height, {

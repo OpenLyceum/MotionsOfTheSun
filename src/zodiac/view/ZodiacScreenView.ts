@@ -18,7 +18,7 @@
 
 import type { TReadOnlyProperty } from "scenerystack/axon";
 import { DerivedProperty, Property } from "scenerystack/axon";
-import { Range } from "scenerystack/dot";
+import { Range, roundSymmetric } from "scenerystack/dot";
 import { type EmptySelfOptions, optionize } from "scenerystack/phet-core";
 import { HBox, type Node, Rectangle, Text, VBox } from "scenerystack/scenery";
 import { PhetFont, ResetAllButton, TimeControlNode } from "scenerystack/scenery-phet";
@@ -225,7 +225,7 @@ export class ZodiacScreenView extends ScreenView {
     const dayOfYearSlider = new HSlider(sliderProperty, dayOfYearRange, {
       ...MOTIONS_OF_THE_SUN_SLIDER_OPTIONS,
       trackSize: { width: Math.min(controlsWidth - 8, 180), height: 4 } as never,
-      constrainValue: (v: number) => Math.round(v),
+      constrainValue: (v: number) => roundSymmetric(v),
       accessibleName: a11y.controls.dayOfYearSliderStringProperty,
     });
 
