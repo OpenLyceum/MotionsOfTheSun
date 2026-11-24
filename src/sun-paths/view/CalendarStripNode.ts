@@ -14,6 +14,7 @@
  */
 
 import type { NumberProperty, TReadOnlyProperty } from "scenerystack/axon";
+import { roundSymmetric } from "scenerystack/dot";
 import { DragListener, KeyboardListener, Line, Node, Rectangle, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import MotionsOfTheSunColors from "../../MotionsOfTheSunColors.js";
@@ -146,7 +147,7 @@ export class CalendarStripNode extends Node {
           }
           const timeDelta = (SIMPLE_TROPICAL_YEAR / width) * deltaPx;
           const currentInt = wrapIntDay(Math.floor(options.dayOfYearProperty.value));
-          setDayInteger(Math.round(currentInt + timeDelta));
+          setDayInteger(roundSymmetric(currentInt + timeDelta));
         },
       }),
     );

@@ -22,7 +22,7 @@
  */
 
 import { Multilink } from "scenerystack/axon";
-import { Vector2 } from "scenerystack/dot";
+import { roundSymmetric, Vector2 } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import {
   Circle,
@@ -320,10 +320,10 @@ export class OrbitViewNode extends Node {
           if (isShift) {
             // Snap to nearest whole sidereal day
             const sps = model.timeMaster.siderealPerSolar;
-            timeDelta = Math.round(timeDelta * sps) / sps;
+            timeDelta = roundSymmetric(timeDelta * sps) / sps;
           } else {
             // Snap to nearest whole solar day
-            timeDelta = Math.round(timeDelta);
+            timeDelta = roundSymmetric(timeDelta);
           }
 
           model.timeMaster.incrementSolarTime(timeDelta, 0);

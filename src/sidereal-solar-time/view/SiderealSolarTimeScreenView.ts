@@ -26,7 +26,7 @@
 
 import type { TReadOnlyProperty } from "scenerystack/axon";
 import { DerivedProperty, NumberProperty } from "scenerystack/axon";
-import { Dimension2, Range } from "scenerystack/dot";
+import { Dimension2, Range, roundSymmetric } from "scenerystack/dot";
 import { type EmptySelfOptions, optionize } from "scenerystack/phet-core";
 import { HBox, Rectangle, Text, VBox } from "scenerystack/scenery";
 import { PhetFont, ResetAllButton, TimeControlNode } from "scenerystack/scenery-phet";
@@ -126,7 +126,7 @@ export class SiderealSolarTimeScreenView extends ScreenView {
     const dayOfYearSlider = new HSlider(sliderProperty, dayOfYearRange, {
       ...MOTIONS_OF_THE_SUN_SLIDER_OPTIONS,
       trackSize: new Dimension2(DAY_OF_YEAR_SLIDER_WIDTH, 4),
-      constrainValue: (v) => Math.round(v),
+      constrainValue: (v) => roundSymmetric(v),
       majorTickLength: 12,
       accessibleName: a11y.controls.dayOfYearSliderStringProperty,
     });
@@ -151,10 +151,10 @@ export class SiderealSolarTimeScreenView extends ScreenView {
     monthShortSPs.forEach((shortSP, m) => {
       const startDoy = MONTH_START_DOY[m] ?? 0;
       const value = (startDoy - VE_DOY_OFFSET + SIMPLE_TROPICAL_YEAR) % SIMPLE_TROPICAL_YEAR;
-      const initialLetter = new DerivedProperty([shortSP], (s: string) => s.charAt(0));
+      const initialLetterProperty = new DerivedProperty([shortSP], (s: string) => s.charAt(0));
       dayOfYearSlider.addMajorTick(
         value,
-        new Text(initialLetter, {
+        new Text(initialLetterProperty, {
           font: new PhetFont(CONTROL_FONT_SIZE - 2),
           fill: MotionsOfTheSunColors.textColorProperty,
         }),

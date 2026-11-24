@@ -18,7 +18,7 @@
 
 import type { TReadOnlyProperty } from "scenerystack/axon";
 import { DerivedProperty, Property } from "scenerystack/axon";
-import { Range } from "scenerystack/dot";
+import { Range, roundSymmetric } from "scenerystack/dot";
 import { type EmptySelfOptions, optionize } from "scenerystack/phet-core";
 import { HBox, type Node, Rectangle, Text, VBox } from "scenerystack/scenery";
 import { PhetFont, ResetAllButton, TimeControlNode } from "scenerystack/scenery-phet";
@@ -87,21 +87,11 @@ export class ZodiacScreenView extends ScreenView {
     });
     this.addChild(backgroundRect);
 
-    // ── Sign label properties (Flash keys use "capricornus") ──────────────
-    const signLabelMap = new Map<string, TReadOnlyProperty<string>>();
-    for (const key of SIGN_KEYS) {
-      const propKey = key === "capricorn" ? "capricornStringProperty" : `${key}StringProperty`;
-      const prop = (zodiacStrings as Record<string, TReadOnlyProperty<string> | undefined>)[propKey];
-      if (prop) {
-        signLabelMap.set(key, prop);
-      }
-    }
-    const capricornProp = (zodiacStrings as Record<string, TReadOnlyProperty<string> | undefined>)[
-      "capricornStringProperty"
-    ];
-    if (capricornProp) {
-      signLabelMap.set("capricornus", capricornProp);
-    }
+    // The constellation art uses the alternate spelling Capricornus.
+    const signLabelMap = new Map<string, TReadOnlyProperty<string>>(
+      SIGN_KEYS.map((key) => [key, zodiacStrings[`${key}StringProperty`]]),
+    );
+    signLabelMap.set("capricornus", zodiacStrings.capricornStringProperty);
 
     // ── Geocentric lab view (default) ─────────────────────────────────────
     this.geocentricNode = new GeocentricZodiacNode(model, signLabelMap, { diameter: GEO_DIAMETER });
@@ -119,16 +109,9 @@ export class ZodiacScreenView extends ScreenView {
     );
     this.addChild(skyNode);
 
-    const constellationLabelStrings: Record<string, string> = {};
-    for (const key of SIGN_KEYS) {
-      const prop = (zodiacStrings as Record<string, { value: string }>)[`${key}StringProperty`];
-      if (prop) {
-        constellationLabelStrings[key] = prop.value;
-      }
-    }
-    if (capricornProp) {
-      constellationLabelStrings["capricornus"] = capricornProp.value;
-    }
+    const constellationLabelStrings = Object.fromEntries(
+      [...signLabelMap].map(([key, property]) => [key, property.value]),
+    );
 
     const constellationsNode = new ZodiacConstellationsNode(model, SKY_WIDTH, constellationLabelStrings);
     constellationsNode.x = SKY_LEFT;
@@ -242,7 +225,7 @@ export class ZodiacScreenView extends ScreenView {
     const dayOfYearSlider = new HSlider(sliderProperty, dayOfYearRange, {
       ...MOTIONS_OF_THE_SUN_SLIDER_OPTIONS,
       trackSize: { width: Math.min(controlsWidth - 8, 180), height: 4 } as never,
-      constrainValue: (v: number) => Math.round(v),
+      constrainValue: (v: number) => roundSymmetric(v),
       accessibleName: a11y.controls.dayOfYearSliderStringProperty,
     });
 

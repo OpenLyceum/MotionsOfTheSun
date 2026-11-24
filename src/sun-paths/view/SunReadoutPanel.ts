@@ -12,7 +12,7 @@
  */
 
 import { DerivedProperty } from "scenerystack/axon";
-import { toFixed } from "scenerystack/dot";
+import { roundSymmetric, toFixed } from "scenerystack/dot";
 import { GridBox, Text, VBox } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import { MotionsOfTheSunPanel } from "../../common/MotionsOfTheSunPanel.js";
@@ -54,7 +54,7 @@ const formatEoT = (minutes: number): string => {
   const sign = minutes < 0 ? "−" : "+";
   const abs = Math.abs(minutes);
   const m = Math.floor(abs);
-  const s = Math.round((abs - m) * 60);
+  const s = roundSymmetric((abs - m) * 60);
   return `${sign}${m}:${s.toString().padStart(2, "0")}`;
 };
 
@@ -85,22 +85,22 @@ export class SunReadoutPanel extends MotionsOfTheSunPanel {
       }),
     ];
 
-    const altValueProp = new DerivedProperty([model.sunAltDegProperty], (alt) => formatDeg(alt));
-    const azValueProp = new DerivedProperty([model.sunAzDegProperty], (az) => `${toFixed(az, 1)}°`);
-    const raValueProp = new DerivedProperty([model.sunRaHoursProperty], (ra) => formatRa(ra));
-    const decValueProp = new DerivedProperty([model.sunDecDegProperty], (dec) => formatDeg(dec));
-    const haValueProp = new DerivedProperty([model.hourAngleHoursProperty], (ha) => formatHoursMinutesSigned(ha));
-    const lstValueProp = new DerivedProperty([model.siderealTimeHoursProperty], (lst) => formatSiderealTime(lst));
-    const eotValueProp = new DerivedProperty([model.eqnOfTimeMinutesProperty], (eot) => formatEoT(eot));
+    const altValueProperty = new DerivedProperty([model.sunAltDegProperty], (alt) => formatDeg(alt));
+    const azValueProperty = new DerivedProperty([model.sunAzDegProperty], (az) => `${toFixed(az, 1)}°`);
+    const raValueProperty = new DerivedProperty([model.sunRaHoursProperty], (ra) => formatRa(ra));
+    const decValueProperty = new DerivedProperty([model.sunDecDegProperty], (dec) => formatDeg(dec));
+    const haValueProperty = new DerivedProperty([model.hourAngleHoursProperty], (ha) => formatHoursMinutesSigned(ha));
+    const lstValueProperty = new DerivedProperty([model.siderealTimeHoursProperty], (lst) => formatSiderealTime(lst));
+    const eotValueProperty = new DerivedProperty([model.eqnOfTimeMinutesProperty], (eot) => formatEoT(eot));
 
     const rows: [Text, Text][] = [
-      makeRow(strings.altitudeStringProperty, altValueProp),
-      makeRow(strings.azimuthStringProperty, azValueProp),
-      makeRow(strings.rightAscensionStringProperty, raValueProp),
-      makeRow(strings.declinationStringProperty, decValueProp),
-      makeRow(strings.hourAngleStringProperty, haValueProp),
-      makeRow(strings.siderealTimeStringProperty, lstValueProp),
-      makeRow(strings.equationOfTimeStringProperty, eotValueProp),
+      makeRow(strings.altitudeStringProperty, altValueProperty),
+      makeRow(strings.azimuthStringProperty, azValueProperty),
+      makeRow(strings.rightAscensionStringProperty, raValueProperty),
+      makeRow(strings.declinationStringProperty, decValueProperty),
+      makeRow(strings.hourAngleStringProperty, haValueProperty),
+      makeRow(strings.siderealTimeStringProperty, lstValueProperty),
+      makeRow(strings.equationOfTimeStringProperty, eotValueProperty),
     ];
 
     const grid = new GridBox({

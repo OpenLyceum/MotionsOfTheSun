@@ -25,12 +25,7 @@ export class ZodiacScreenSummaryContent extends ScreenSummaryContent {
     const controlStrings = StringManager.getInstance().getControls();
 
     // ── Live sign string ──────────────────────────────────────────────────
-    // Read zodiac sign name string properties once (not reactive to language change; acceptable)
-    const signValueProperties: TReadOnlyProperty<string>[] = SIGN_KEYS.map(
-      (key) =>
-        (zodiacStrings as Record<string, TReadOnlyProperty<string>>)[`${key}StringProperty`] ??
-        ({ value: key } as TReadOnlyProperty<string>),
-    );
+    const signValueProperties = SIGN_KEYS.map((key) => zodiacStrings[`${key}StringProperty`]);
 
     const signStringProperty = new DerivedProperty([model.sunSignIndexProperty], (idx) => {
       return signValueProperties[idx]?.value ?? SIGN_KEYS[idx] ?? "";

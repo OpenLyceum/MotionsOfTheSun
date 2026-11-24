@@ -21,6 +21,7 @@
  */
 
 import { Multilink, type TReadOnlyProperty } from "scenerystack/axon";
+import { roundSymmetric } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import { Circle, Color, LinearGradient, Node, Path, Rectangle, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
@@ -60,9 +61,9 @@ function interpolateColor(c0: string | Color, c1: string | Color, u: number): Co
   const a = Color.toColor(c0);
   const b = Color.toColor(c1);
   return new Color(
-    Math.round(a.r + u * (b.r - a.r)),
-    Math.round(a.g + u * (b.g - a.g)),
-    Math.round(a.b + u * (b.b - a.b)),
+    roundSymmetric(a.r + u * (b.r - a.r)),
+    roundSymmetric(a.g + u * (b.g - a.g)),
+    roundSymmetric(a.b + u * (b.b - a.b)),
   );
 }
 
